@@ -10,13 +10,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ElementsPage {
+public class TextBoxPage {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
     // Constructor
-    public ElementsPage(WebDriver driver) {
+    public TextBoxPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
@@ -34,8 +34,10 @@ public class ElementsPage {
     // Output locators
     private By outputName = By.id("name");
     private By outputEmail = By.id("email");
+
     private By outputCurrentAddress =
             By.xpath("//p[@id='currentAddress']");
+
     private By outputPermanentAddress =
             By.xpath("//p[@id='permanentAddress']");
 
@@ -62,18 +64,15 @@ public class ElementsPage {
 
         WebElement element = waitForElement(elementsMenu);
 
-        // Scroll Elements menu into center of screen
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].scrollIntoView({block:'center'});",
                 element
         );
 
-        // Wait until element is clickable
         wait.until(
                 ExpectedConditions.elementToBeClickable(element)
         );
 
-        // JavaScript click
         ((JavascriptExecutor) driver).executeScript(
                 "arguments[0].click();",
                 element
@@ -126,6 +125,7 @@ public class ElementsPage {
 
     // Click Submit Button
     public void clickSubmit() {
+
         WebElement element = waitForClickable(submitButton);
 
         ((JavascriptExecutor) driver).executeScript(
@@ -133,8 +133,10 @@ public class ElementsPage {
                 element
         );
 
-        ((JavascriptExecutor) driver)
-                .executeScript("arguments[0].click();", element);
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].click();",
+                element
+        );
     }
 
     // Get Full Name Output
@@ -157,12 +159,12 @@ public class ElementsPage {
         return waitForElement(outputPermanentAddress).getText();
     }
 
-    // Compatibility method for original ElementsTest
+    // Compatibility method for existing tests
     public String getOutput() {
         return getOutputName();
     }
 
-    // Compatibility method for original ElementsTest
+    // Compatibility method for existing tests
     public String getCurrentAddressOutput() {
         return getOutputCurrentAddress();
     }
@@ -198,6 +200,7 @@ public class ElementsPage {
             return wait.until(
                     ExpectedConditions.visibilityOfElementLocated(locator)
             ).isDisplayed();
+
         } catch (Exception e) {
             return false;
         }
@@ -206,7 +209,10 @@ public class ElementsPage {
     // Check if Email Error is displayed
     public boolean isEmailErrorDisplayed() {
         try {
-            return driver.findElement(emailError).isDisplayed();
+            return wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(emailError)
+            ).isDisplayed();
+
         } catch (Exception e) {
             return false;
         }
@@ -214,6 +220,7 @@ public class ElementsPage {
 
     // Check if Email field has invalid CSS class
     public boolean hasEmailErrorClass() {
+
         String classAttribute =
                 waitForElement(emailField).getAttribute("class");
 
@@ -228,6 +235,7 @@ public class ElementsPage {
 
     // Clear all fields
     public void clearAllFields() {
+
         waitForElement(fullNameField).clear();
         waitForElement(emailField).clear();
         waitForElement(currentAddressField).clear();
@@ -236,10 +244,12 @@ public class ElementsPage {
 
     // Scroll to Submit Button
     public void scrollToSubmitButton() {
+
         WebElement element = waitForElement(submitButton);
 
         ((JavascriptExecutor) driver).executeScript(
-                "arguments[0].scrollIntoView(true);", element
+                "arguments[0].scrollIntoView({block:'center'});",
+                element
         );
     }
 }

@@ -1,25 +1,24 @@
 
-
 package tests;
 
 import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.ElementsPage;
+import pages.TextBoxPage;
 
-public class ElementsTest extends BaseTest {
+public class TextBoxTest extends BaseTest {
 
-    private ElementsPage elementsPage;
+    private TextBoxPage textBoxPage;
 
     // Navigate to Text Box page before every test
     @BeforeMethod
     public void setUpTextBoxPage() {
 
-        elementsPage = new ElementsPage(driver);
+        textBoxPage = new TextBoxPage(driver);
 
-        elementsPage.clickOnElements();
-        elementsPage.clickOnTextBox();
+        textBoxPage.clickOnElements();
+        textBoxPage.clickOnTextBox();
     }
 
     // Test Case 1: Verify all UI elements are visible
@@ -27,27 +26,27 @@ public class ElementsTest extends BaseTest {
     public void verifyUIElements() {
 
         Assert.assertTrue(
-                elementsPage.isFullNameVisible(),
+                textBoxPage.isFullNameVisible(),
                 "Full Name field is not visible"
         );
 
         Assert.assertTrue(
-                elementsPage.isEmailVisible(),
+                textBoxPage.isEmailVisible(),
                 "Email field is not visible"
         );
 
         Assert.assertTrue(
-                elementsPage.isCurrentAddressVisible(),
+                textBoxPage.isCurrentAddressVisible(),
                 "Current Address field is not visible"
         );
 
         Assert.assertTrue(
-                elementsPage.isPermanentAddressVisible(),
+                textBoxPage.isPermanentAddressVisible(),
                 "Permanent Address field is not visible"
         );
 
         Assert.assertTrue(
-                elementsPage.isSubmitVisible(),
+                textBoxPage.isSubmitVisible(),
                 "Submit button is not visible"
         );
     }
@@ -56,11 +55,11 @@ public class ElementsTest extends BaseTest {
     @Test
     public void verifyValidEmailIsAccepted() {
 
-        elementsPage.enterEmail("test@gmail.com");
-        elementsPage.clickSubmit();
+        textBoxPage.enterEmail("test@gmail.com");
+        textBoxPage.clickSubmit();
 
         Assert.assertFalse(
-                elementsPage.isEmailErrorDisplayed(),
+                textBoxPage.isEmailErrorDisplayed(),
                 "Email validation error displayed for valid email"
         );
     }
@@ -69,10 +68,10 @@ public class ElementsTest extends BaseTest {
     @Test
     public void verifyFullName() {
 
-        elementsPage.enterFullName("Mohammad Abdullah");
-        elementsPage.clickSubmit();
+        textBoxPage.enterFullName("Mohammad Abdullah");
+        textBoxPage.clickSubmit();
 
-        String actualName = elementsPage.getOutput();
+        String actualName = textBoxPage.getOutput();
 
         Assert.assertEquals(
                 actualName,
@@ -85,11 +84,11 @@ public class ElementsTest extends BaseTest {
     @Test
     public void verifyCurrentAddress() {
 
-        elementsPage.enterCurrentAddress("8215 Britton");
-        elementsPage.clickSubmit();
+        textBoxPage.enterCurrentAddress("8215 Britton");
+        textBoxPage.clickSubmit();
 
         String actualCurrentAddress =
-                elementsPage.getCurrentAddressOutput();
+                textBoxPage.getCurrentAddressOutput();
 
         Assert.assertEquals(
                 actualCurrentAddress,
@@ -98,5 +97,3 @@ public class ElementsTest extends BaseTest {
         );
     }
 }
-
-
